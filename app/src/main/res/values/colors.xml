@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="quasePreto">#101010</color>
+    <color name="statusBar">#353333</color>
+<!--    Cores Day-->
+    <color name="PrimaryColorDay">#9B86D1</color>
+<!--    Cores Night-->
+    <color name="PrimaryColorNight">#36275C</color>
+
+</resources>
