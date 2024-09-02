@@ -18,8 +18,8 @@ class TransacaoReceiver : BroadcastReceiver() {
         private const val CHANNEL_ID = "channel01"
     }
     override fun onReceive(context: Context?, intent: Intent?) {
-        val valorPago = intent?.getDoubleExtra("valor_pago", 0.0)
-        val valorTotal = intent?.getDoubleExtra("valor_total", 0.0)
+        val valorPago = intent?.getFloatExtra("valor_pago", 0F)
+        val valorTotal = intent?.getFloatExtra("valor_total", 0F)
 
         // Processa os valores recebidos
         val troco = valorTotal?.let { valorPago?.minus(it) }
