@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         val telaCalc: TextView = findViewById(R.id.Resultado)
+        val telaAnt: TextView = findViewById(R.id.ResultadoAntecipado)
 
         //Iniciando Service
         val intent = Intent(this, ManterBroadCast::class.java)
@@ -50,7 +51,26 @@ class MainActivity : AppCompatActivity() {
         // Mudar a cor da barra de navegação
         window.navigationBarColor = ContextCompat.getColor(this, R.color.quasePreto)
 
+        fun resultadoAnte(){
+            if (calculoAtual.isNotEmpty()) {
+                var calculoTemp = calculoAtual
+                var resultadoTemp = ""
+                val u = calculoTemp.last()
+                if (u in listOf('-', '*', '+', '/' )) {
+                    calculoTemp = calculoTemp.dropLast(1)
+                }
+                resultadoTemp = efetuarCalculo(calculoTemp).toString()
+                telaAnt.text = resultadoTemp
+            }
+        }
         fun updateTextView(){
+            resultadoAnte()
+            val s = calculoAtual.length
+            if(s >= 3) {
+                if (calculoAtual[s - 2] == '/' && calculoAtual[s - 1] == '0' || calculoAtual[s - 3] == '/' && calculoAtual[s - 2] == '0') {
+                    calculoAtual = calculoAtual.dropLast(2)
+                }
+            }
             telaCalc.text = calculoAtual
         }
         fun mostrarResultado(){
@@ -205,14 +225,20 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnApagarTudo.setOnClickListener {
             calculoAtual = ""
+            telaAnt.text = "0.0"
             updateTextView()
         }
         binding.btnIgual.setOnClickListener{
             if (calculoAtual.isNotEmpty()) {
+                val u = calculoAtual.last()
+                if (u in listOf('-', '*', '+', '/' )) {
+                    calculoAtual = calculoAtual.dropLast(1)
+                }
                 resultadoCalc = efetuarCalculo(calculoAtual).toString()
                 iserirHistorico()
                 calculoAtual = resultadoCalc
                 mostrarResultado()
+                telaAnt.text = ""
             } else {
                 Toast.makeText(this, "Faça um Calculo. Antes de Apertar Igual", Toast.LENGTH_LONG).show()
             }
@@ -228,7 +254,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun iserirHistorico(){
         val isInserted = dbHelper.insertData(calculoAtual, efetuarCalculo(calculoAtual))
         if (isInserted) {
@@ -248,6 +273,15 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
     private fun efetuarCalculo(expression: String): Double {
+        val s = calculoAtual.length
+        if(calculoAtual.isNotEmpty()){
+            if(s >= 3) {
+                if (calculoAtual[s - 2] == '/' && calculoAtual[s - 1] == '0' || calculoAtual[s - 3] == '/' && calculoAtual[s - 2] == '0') {
+                    Toast.makeText(this, "Não Divida Por Zero. Porfavor", Toast.LENGTH_LONG).show()
+                    return 0.0
+                }
+            }
+        }
         val exp = ExpressionBuilder(expression).build()
         return exp.evaluate()
     }

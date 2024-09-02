@@ -35,12 +35,23 @@
         app:layout_constraintTop_toTopOf="@id/ContainTop" />
 
     <Button
-        android:id="@+id/btnApagarTudo"
+        android:id="@+id/btnHistorico"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/ContainTop"
         app:layout_constraintRight_toRightOf="@id/ContainTop"
-        android:text="Apagar Tudo"/>
+        android:text="Historico"/>
+
+    <TextView
+        android:id="@+id/ResultadoAntecipado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/Resultado"
+        app:layout_constraintRight_toRightOf="@id/Resultado"
+        android:textSize="36sp"
+        android:textColor="@color/Cinza"
+        android:paddingEnd="15dp"
+        />
 
     <TextView
         android:id="@+id/Resultado"
@@ -68,10 +79,10 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnHistorico"
+                android:id="@+id/btnApagarTudo"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:text="H"
+                android:text="CC"
                 android:textSize="30sp" />
 
             <Button
